@@ -1,0 +1,39 @@
+@startuml
+title 1.3 手動ログイン
+hide footbox
+
+/'
+※１：アクセストークン・クライアント・メールアドレス、パスワード
+'/
+
+actor "user A" as user_a
+participant "モバイル A" as mobile_a
+database "UserDefault A" as user_default_a
+database "Realm A" as realm_a
+participant "MeiyuAPI" as meiyu_api
+database "MySQL" as mysql
+
+activate user_a
+user_a -> mobile_a : メールアドレス・パスワード入力
+
+activate mobile_a
+mobile_a -> meiyu_api : サインイン
+
+activate meiyu_api
+meiyu_api -> mysql : 認証情報検証
+
+activate mysql
+mysql -> meiyu_api : 認証情報※１
+
+deactivate mysql
+
+meiyu_api -> mobile_a : 認証情報※１
+
+deactivate meiyu_api
+
+mobile_a -> mobile_a : 1.2 自動ログインへ続く
+
+deactivate mobile_a
+
+
+@enduml
