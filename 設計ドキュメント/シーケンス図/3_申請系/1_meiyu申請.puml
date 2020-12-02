@@ -33,8 +33,17 @@ activate mysql
 mysql -> meiyu_api : ok
 deactivate mysql
 
-meiyu_api -> mobile_b : 申請通知(方法不明)
+meiyu_api -> mobile_b : 申請通知（プッシュ通知）
 activate mobile_b
+
+meiyu_api -> mobile_a : ok
+
+deactivate meiyu_api
+
+mobile_a -> user_a : 申請完了通知
+deactivate mobile_a
+deactivate user_a
+
 mobile_b -> meiyu_api : 申請情報取得
 
 activate meiyu_api
@@ -53,12 +62,8 @@ activate realm_b
 realm_b -> mobile_b : ok
 deactivate realm_b
 
-mobile_b -> user_b : 申請通知
+mobile_b -> user_b : 申請通知（to 3.2, 3.3）
 deactivate mobile_b
 
-meiyu_api -> mobile_a : ok
-deactivate meiyu_api
 
-mobile_a -> user_a : 申請完了通知
-deactivate user_a
 @enduml
