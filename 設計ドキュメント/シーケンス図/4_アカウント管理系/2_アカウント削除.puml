@@ -1,0 +1,42 @@
+@startuml
+title 4.2 アカウント削除
+hide footbox
+
+actor "user A" as user_a
+participant "モバイル A" as mobile_a
+database "UserDefault A" as user_default_a
+database "Realm A" as realm_a
+participant "MeiyuAPI" as meiyu_api
+database "MySQL" as mysql
+
+activate user_a
+user_a -> mobile_a : アカウント削除
+
+activate mobile_a
+mobile_a -> meiyu_api : アカウント削除
+
+activate meiyu_api
+meiyu_api -> mysql : 削除ステータスを設定
+
+activate mysql
+mysql -> meiyu_api : ok
+
+deactivate mysql
+
+meiyu_api -> mobile_a : ok
+
+deactivate meiyu_api
+
+mobile_a -> user_default_a : 登録内容削除
+
+activate user_default_a
+user_default_a -> mobile_a : ok
+
+deactivate user_default_a
+
+mobile_a -> user_a : 削除完了
+
+deactivate mobile_a
+deactivate user_a
+
+@enduml
