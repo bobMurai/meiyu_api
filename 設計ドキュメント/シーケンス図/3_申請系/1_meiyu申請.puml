@@ -18,11 +18,6 @@ activate user_a
 user_a -> mobile_a : user Bへのmeiyu申請
 
 activate mobile_a
-mobile_a -> realm_a : AのRealmに申請情報を保存
-
-activate realm_a
-realm_a -> mobile_a : ok
-deactivate realm_a
 
 mobile_a -> meiyu_api : MySQLに申請情報を登録
 
@@ -39,6 +34,12 @@ activate mobile_b
 meiyu_api -> mobile_a : ok
 
 deactivate meiyu_api
+
+mobile_a -> realm_a : AのRealmに申請情報を保存
+
+activate realm_a
+realm_a -> mobile_a : ok
+deactivate realm_a
 
 mobile_a -> user_a : 申請完了通知
 deactivate mobile_a
