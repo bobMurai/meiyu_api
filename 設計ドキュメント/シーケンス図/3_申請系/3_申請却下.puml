@@ -1,0 +1,66 @@
+@startuml
+title 3.3 申請却下
+hide footbox
+
+actor "user A" as user_a
+participant "モバイル A" as mobile_a
+database "UserDefault A" as user_default_a
+database "Realm A" as realm_a
+participant "MeiyuAPI" as meiyu_api
+database "MySQL" as mysql
+participant "モバイル B" as mobile_b
+database "UserDefault B" as user_default_b
+database "Realm B" as realm_b
+actor "user B" as user_b
+
+user_a -> user_b : 3.1 meiyu申請
+activate user_b
+user_b -> mobile_b : 申請却下
+
+activate mobile_b
+mobile_b -> meiyu_api : 申請却下
+
+activate meiyu_api
+meiyu_api -> mysql : 申請ステータス変更
+
+activate mysql
+mysql -> meiyu_api : ok
+
+deactivate mysql
+
+meiyu_api -> mobile_a : サイレントプッシュ
+activate mobile_a
+
+meiyu_api -> mobile_b : ok
+
+deactivate meiyu_api
+
+mobile_b -> user_b : ok
+
+deactivate mobile_b
+deactivate user_b
+
+mobile_a -> meiyu_api : 申請ステータス取得（DB同期）
+
+activate meiyu_api
+
+meiyu_api -> mysql : 申請ステータス取得（DB同期）
+
+activate mysql
+mysql -> meiyu_api : 申請ステータス
+
+deactivate mysql
+
+meiyu_api -> mobile_a : 申請ステータス
+
+deactivate meiyu_api
+
+mobile_a -> realm_a : 申請ステータス更新（DB同期）
+
+activate realm_a
+realm_a -> mobile_a : ok
+
+deactivate realm_a
+deactivate mobile_a
+
+@enduml
