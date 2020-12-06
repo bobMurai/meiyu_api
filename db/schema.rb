@@ -36,10 +36,14 @@ ActiveRecord::Schema.define(version: 2020_12_03_003122) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "name"
     t.string "nickname"
-    t.string "image"
+    t.string "photo_url"
     t.string "email"
+    t.string "nearest_station"
+    t.date "birthday"
+    t.string "social_position"
+    t.string "job"
+    t.text "introduction"
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
