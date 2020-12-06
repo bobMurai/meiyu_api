@@ -9,12 +9,16 @@ class ChatsController < ApplicationController
 ２：friend_relation_idで検索をかけてヒットしたチャットレコードを全件取得
 ３：current_userとchats(ヒットしたチャットレコード)をresに詰めて返却
 =end
-  def index
+  def index 
+    # 要編集
     @user_info = current_user
     logger.debug("ログインユーザ情報")
     logger.debug(@user_info.to_json)
 
-    @chats = Chat.all
+    # これ、indexではできない！！
+    # friend_relation_idの引数を持たせるとshowにルーティングされるため。
+    # params[:friend_relation_id]で検索をかけてヒットしたものを返却
+    @chats = Chat.where(friend_relation_id: params[:friend_relation_id])
 
     @res = {
       "user_info":@user_info,
