@@ -10,13 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_03_003122) do
+ActiveRecord::Schema.define(version: 2020_12_06_124014) do
 
   create_table "chats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "content"
-    t.integer "friend_relation_id"
+    t.bigint "friend_relation_id"
+    t.index ["friend_relation_id"], name: "index_chats_on_friend_relation_id"
+  end
+
+  create_table "friend_relation_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "friend_status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "friend_relation_id"
+    t.index ["friend_relation_id"], name: "index_friend_relation_details_on_friend_relation_id"
+    t.index ["user_id"], name: "index_friend_relation_details_on_user_id"
+  end
+
+  create_table "friend_relations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -53,4 +69,7 @@ ActiveRecord::Schema.define(version: 2020_12_03_003122) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "chats", "friend_relations"
+  add_foreign_key "friend_relation_details", "friend_relations"
+  add_foreign_key "friend_relation_details", "users"
 end
