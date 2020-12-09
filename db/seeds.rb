@@ -15,26 +15,49 @@
 end
 
 # friend_relationsデータ作成
-5.times do |n|
-  FriendRelation.create!(
-    id: n.to_s
-  )
-end
+# 5.times do |n|
+#   FriendRelation.create!(
+#     id: n.to_s
+#   )
+# end
+
+FriendRelation.create!(
+  id: 1
+)
 
 # friend_relation_detailsデータ作成
-10.times do |n|
-  FriendRelationDetail.create!(
-    friend_status: 3,
-    user_id: (n%5).to_s,
-    friend_relation_id: ((n+1)%5).to_s,
-  )
-end
+# ↓これでは同一人物同士が友達になってしまう。。。
+# 10.times do |n|
+#   FriendRelationDetail.create!(
+#     friend_status: 3,
+#     user_id: (n%5).to_s,
+#     friend_relation_id: ((n+1)%5).to_s,
+#   )
+# end
+
+FriendRelationDetail.create!(
+  friend_status: 3,
+  user_id: 0,
+  friend_relation_id: 1,
+)
+
+FriendRelationDetail.create!(
+  friend_status: 3,
+  user_id: 1,
+  friend_relation_id: 1,
+)
 
 # chatsデータ作成
-5.times do |n|
-  Chat.create!(
-    content: "hello!",
-    friend_relation_id: ((n+1)%5).to_s,
-    user_id: n.to_s,
-  )
-end
+# 5.times do |n|
+#   Chat.create!(
+#     content: "hello!",
+#     friend_relation_id: ((n+1)%5).to_s,
+#     user_id: n.to_s,
+#   )
+# end
+
+Chat.create!(
+  content: "hello!",
+  friend_relation_id: 1,
+  user_id: 0,
+)
