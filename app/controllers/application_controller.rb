@@ -5,8 +5,7 @@ class ApplicationController < ActionController::API
         private
         # エラー時のレスポンスを返す
         def handle_err(e)
-                header = {result: e.code, message: e.message}
-                res = {status: "fail", header: header}
+                res = {status: "fail", message: e.message}
                 render json: res
         end
 end
