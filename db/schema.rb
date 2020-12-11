@@ -10,7 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_064337) do
+ActiveRecord::Schema.define(version: 2020_12_06_124014) do
+
+  create_table "chats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "content"
+    t.bigint "friend_relation_id"
+    t.index ["friend_relation_id"], name: "index_chats_on_friend_relation_id"
+  end
+
+  create_table "friend_relation_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "friend_status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "friend_relation_id"
+    t.index ["friend_relation_id"], name: "index_friend_relation_details_on_friend_relation_id"
+    t.index ["user_id"], name: "index_friend_relation_details_on_user_id"
+  end
+
+  create_table "friend_relations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -29,10 +52,14 @@ ActiveRecord::Schema.define(version: 2020_12_01_064337) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "name"
     t.string "nickname"
-    t.string "image"
+    t.string "photo_url"
     t.string "email"
+    t.string "nearest_station"
+    t.date "birthday"
+    t.string "social_position"
+    t.string "job"
+    t.text "introduction"
     t.text "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -42,4 +69,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_064337) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "chats", "friend_relations"
+  add_foreign_key "friend_relation_details", "friend_relations"
+  add_foreign_key "friend_relation_details", "users"
 end

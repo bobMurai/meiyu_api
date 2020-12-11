@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+
+  put "/users", to: "users#update"
+
+  put 'friend_relations', to: 'friend_relations#update'
+  post 'friend_relations', to: 'friend_relations#create'
+
+  get 'utils/sync', to: 'utils#sync'
+
   mount_devise_token_auth_for 'User', at: 'auth'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
 end

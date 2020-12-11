@@ -6,4 +6,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
+  has_many :friend_relation_details, dependent: :destroy
+  has_many :chats, dependent: :destroy
 end
