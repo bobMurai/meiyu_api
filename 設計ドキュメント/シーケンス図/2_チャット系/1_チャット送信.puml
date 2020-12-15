@@ -1,0 +1,69 @@
+@startuml
+title 2.1 チャット送信
+hide footbox
+
+actor "user A" as user_a
+participant "モバイル A" as mobile_a
+database "UserDefault A" as user_default_a
+database "Realm A" as realm_a
+participant "MeiyuAPI" as meiyu_api
+database "MySQL" as mysql
+participant "モバイル B" as mobile_b
+database "UserDefault B" as user_default_b
+database "Realm B" as realm_b
+actor "user B" as user_b
+
+activate user_a
+user_a -> mobile_a : user Bへのチャット送信
+
+activate mobile_a
+mobile_a -> meiyu_api : MySQLにチャットを登録
+
+activate meiyu_api
+meiyu_api -> mysql : 登録
+
+activate mysql
+mysql -> meiyu_api : ok
+deactivate mysql
+
+meiyu_api --> mobile_b : 申請通知（プッシュ通知）
+activate mobile_b
+
+meiyu_api -> mobile_a : ok
+
+deactivate meiyu_api
+
+mobile_a -> realm_a : Realmにチャットを登録
+
+activate realm_a
+realm_a -> mobile_a : ok
+deactivate realm_a
+
+
+mobile_a -> user_a : チャット反映
+deactivate mobile_a
+deactivate user_a
+
+mobile_b -> meiyu_api : DB同期
+
+activate meiyu_api
+meiyu_api -> mysql : DB同期
+
+activate mysql
+mysql -> meiyu_api : DB同期
+deactivate mysql
+
+meiyu_api -> mobile_b : ok
+deactivate meiyu_api
+
+mobile_b -> realm_b : DB同期
+
+activate realm_b
+realm_b -> mobile_b : ok
+deactivate realm_b
+
+mobile_b -> user_b : チャット反映
+deactivate mobile_b
+
+
+@enduml
