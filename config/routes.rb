@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   put 'friend_relations', to: 'friend_relations#update'
   post 'friend_relations', to: 'friend_relations#create'
-
+  post 'chats', to: 'chats#create'
   get 'utils/sync', to: 'utils#sync'
 
   mount_devise_token_auth_for 'User', at: 'auth'
